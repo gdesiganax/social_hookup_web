@@ -1,0 +1,10 @@
+# Block all .env files (including local, production, and development variations)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# Block all compressed zip archives
+*.zip

@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HookUp · Complete Bootstrap Template</title>
+  <!-- Bootstrap 5 + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+    body { background-color: #f9f7fe; }
+    .navbar-brand { font-weight: 700; letter-spacing: -0.5px; color: #6f42c1 !important; }
+    .btn-primary { background: #6f42c1; border-color: #6f42c1; }
+    .btn-primary:hover, .btn-primary:focus { background: #5a32a3; border-color: #5a32a3; }
+    .btn-outline-primary { color: #6f42c1; border-color: #6f42c1; }
+    .btn-outline-primary:hover { background: #6f42c1; border-color: #6f42c1; }
+    .card { border: none; border-radius: 1rem; box-shadow: 0 8px 20px rgba(0,0,0,0.02), 0 2px 6px rgba(0,0,0,0.03); transition: transform 0.1s ease; }
+    .card:hover { box-shadow: 0 12px 28px rgba(0,0,0,0.05); }
+    .profile-avatar { width: 48px; height: 48px; object-fit: cover; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .avatar-lg { width: 80px; height: 80px; }
+    .status-badge { font-size: 0.75rem; padding: 0.3rem 0.7rem; border-radius: 50px; }
+    .admin-table img { width: 36px; height: 36px; object-fit: cover; border-radius: 50%; margin-right: 8px; }
+    .bg-soft-purple { background-color: #f3efff; }
+    .footer { background: white; border-top: 1px solid #ede9fe; }
+    .nav-pills .nav-link.active { background-color: #6f42c1; }
+    .nav-pills .nav-link { color: #4b3b6b; }
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+    .chat-sidebar { background: white; border-radius: 1rem; height: 600px; overflow-y: auto; }
+    .chat-sidebar .list-group-item { border: none; border-bottom: 1px solid #f0edf5; cursor: pointer; transition: background 0.15s; }
+    .chat-sidebar .list-group-item:hover { background: #f9f7fe; }
+    .chat-sidebar .list-group-item.active { background: #f3efff; border-left: 3px solid #6f42c1; }
+    .chat-window { background: white; border-radius: 1rem; height: 600px; display: flex; flex-direction: column; }
+    .chat-messages { flex: 1; overflow-y: auto; padding: 1.5rem; }
+    .chat-bubble { max-width: 75%; padding: 0.75rem 1rem; border-radius: 1rem; margin-bottom: 0.75rem; word-wrap: break-word; }
+    .chat-bubble.sent { background: #6f42c1; color: white; margin-left: auto; border-bottom-right-radius: 0.25rem; }
+    .chat-bubble.received { background: #f3efff; color: #2d1b4e; margin-right: auto; border-bottom-left-radius: 0.25rem; }
+    .chat-bubble .sender-name { font-size: 0.7rem; font-weight: 600; opacity: 0.8; margin-bottom: 0.15rem; }
+    .chat-input-area { border-top: 1px solid #f0edf5; padding: 1rem; background: white; border-radius: 0 0 1rem 1rem; }
+    .group-icon { width: 48px; height: 48px; border-radius: 50%; background: #6f42c1; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1.1rem; flex-shrink: 0; }
+    .typing-indicator { font-size: 0.75rem; color: #6c757d; font-style: italic; }
+    .cursor-pointer { cursor: pointer; }
+    .nav-link.active-page { color: #6f42c1 !important; font-weight: 600; }
+    .chat-date-divider { text-align: center; font-size: 0.75rem; color: #999; margin: 1rem 0; }
+    .chat-date-divider span { background: #f9f7fe; padding: 0.2rem 0.8rem; border-radius: 50px; }
+  </style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom py-3 sticky-top">
+  <div class="container">
+    <a class="navbar-brand cursor-pointer" onclick="showPage('home')"><i class="bi bi-heart-fill me-1" style="color:#6f42c1;"></i> HookUp</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link cursor-pointer" id="nav-home" onclick="showPage('home')"><i class="bi bi-house-door me-1"></i>Home</a></li>
+        <li class="nav-item"><a class="nav-link cursor-pointer" id="nav-matches" onclick="showPage('matches')"><i class="bi bi-people me-1"></i>Matches</a></li>
+        <li class="nav-item"><a class="nav-link cursor-pointer" id="nav-chat" onclick="showPage('chat')"><i class="bi bi-chat-dots me-1"></i>Messages</a></li>
+        <li class="nav-item"><a class="nav-link cursor-pointer" id="nav-profile" onclick="showPage('profile')"><i class="bi bi-person-circle me-1"></i>Profile</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle cursor-pointer" id="nav-admin" href="#" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-gear me-1"></i>Admin
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item cursor-pointer" onclick="showPage('adminDashboard')">Dashboard</a></li>
+            <li><a class="dropdown-item cursor-pointer" onclick="showPage('adminUsers')">Manage Users</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item cursor-pointer" onclick="showPage('adminSettings')">Settings</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="d-flex align-items-center gap-3">
+        <img src="https://i.pravatar.cc/150?img=32" alt="My avatar" class="profile-avatar cursor-pointer" onclick="showPage('profile')">
+        <span class="fw-semibold d-none d-lg-block">Alex Rivera</span>
+        <a href="#" class="btn btn-outline-secondary btn-sm rounded-pill" onclick="event.preventDefault(); alert('Mock logout — no backend.')"><i class="bi bi-box-arrow-right"></i> Logout</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= PAGE CONTAINER ================= -->
+<div class="container py-4">
+
+  <!-- ============================================================ -->
+  <!-- PAGE: HOME                                                   -->
+  <!-- ============================================================ -->
+  <div id="page-home" class="page-section active">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="card mb-4 p-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="fw-bold mb-0"><i class="bi bi-lightning-charge-fill text-warning me-1"></i>Quick matches</h6>
+            <a class="small text-decoration-none cursor-pointer" onclick="showPage('matches')">See all</a>
+          </div>
+          <div class="d-flex gap-3 overflow-auto pb-1">
+            <div class="text-center cursor-pointer" onclick="showPage('matches')">
+              <img src="https://i.pravatar.cc/150?img=1" class="rounded-circle border border-2 border-white shadow-sm" width="60" height="60" alt="match">
+              <div class="small mt-1">Mia</div>
+            </div>
+            <div class="text-center cursor-pointer" onclick="showPage('matches')">
+              <img src="https://i.pravatar.cc/150?img=5" class="rounded-circle border border-2 border-white shadow-sm" width="60" height="60" alt="match">
+              <div class="small mt-1">James</div>
+            </div>
+            <div class="text-center cursor-pointer" onclick="showPage('matches')">
+              <img src="https://i.pravatar.cc/150?img=8" class="rounded-circle border border-2 border-white shadow-sm" width="60" height="60" alt="match">
+              <div class="small mt-1">Taylor</div>
+            </div>
+            <div class="text-center cursor-pointer" onclick="showPage('matches')">
+              <img src="https://i.pravatar.cc/150?img=12" class="rounded-circle border border-2 border-white shadow-sm" width="60" height="60" alt="match">
+              <div class="small mt-1">Jordan</div>
+            </div>
+            <div class="text-center cursor-pointer" onclick="showPage('matches')">
+              <img src="https://i.pravatar.cc/150?img=18" class="rounded-circle border border-2 border-white shadow-sm" width="60" height="60" alt="match">
+              <div class="small mt-1">Sam</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-4 p-4">
+          <div class="d-flex align-items-center gap-3">
+            <img src="https://i.pravatar.cc/150?img=44" class="profile-avatar" alt="user">
+            <div>
+              <h6 class="fw-bold mb-0">Jamie Chen</h6>
+              <span class="text-muted small">2 hours ago · <i class="bi bi-geo-alt"></i> Brooklyn</span>
+            </div>
+            <div class="ms-auto">
+              <button class="btn btn-sm btn-light rounded-pill"><i class="bi bi-three-dots"></i></button>
+            </div>
+          </div>
+          <p class="mt-3">Looking for someone to explore the city with 🌃✨ coffee? art? late night talks? swipe right if you're up for spontaneous plans.</p>
+          <div class="d-flex gap-2 mt-2">
+            <span class="badge bg-soft-purple text-dark px-3 py-2 rounded-pill cursor-pointer"><i class="bi bi-heart-fill text-danger me-1"></i> 24</span>
+            <span class="badge bg-soft-purple text-dark px-3 py-2 rounded-pill cursor-pointer" onclick="showPage('chat')"><i class="bi bi-chat-dots me-1"></i> 6</span>
+            <span class="badge bg-soft-purple text-dark px-3 py-2 rounded-pill cursor-pointer"><i class="bi bi-share me-1"></i> 2</span>
+          </div>
+        </div>
+
+        <div class="card mb-4 p-4">
+          <div class="d-flex align-items-center gap-3">
+            <img src="https://i.pravatar.cc/150?img=25" class="profile-avatar" alt="user">
+            <div>
+              <h6 class="fw-bold mb-0">Riley Park</h6>
+              <span class="text-muted small">5 hours ago · <i class="bi bi-geo-alt"></i> Manhattan</span>
+            </div>
+            <div class="ms-auto">
+              <button class="btn btn-sm btn-light rounded-pill"><i class="bi bi-three-dots"></i></button>
+            </div>
+          </div>
+          <p class="mt-3">Any dog lovers here? 🐕 I'm at the park every weekend with my golden. Let's meet up!</p>
+          <div class="d-flex gap-2 mt-2">
+            <span class="badge bg-soft-purple text-dark px-3 py-2 rounded-pill cursor-pointer"><i class="bi bi-heart-fill text-danger me-1"></i> 42</span>
+            <span class="badge bg-soft-purple text-dark px-3 py-2 rounded-pill cursor-pointer" onclick="showPage('chat')"><i class="bi bi-chat-dots me-1"></i> 11</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card p-4 mb-4">
+          <h6 class="fw-bold mb-3"><i class="bi bi-person-badge me-2"></i>Your profile</h6>
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <img src="https://i.pravatar.cc/150?img=32" class="avatar-lg rounded-circle" alt="my avatar">
+            <div>
+              <h5 class="fw-bold mb-0">Alex Rivera</h5>
+              <span class="text-muted small">@alexriv · 28</span>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between text-center border-top pt-3">
+            <div><span class="fw-bold">128</span><br><span class="small text-muted">Matches</span></div>
+            <div><span class="fw-bold">342</span><br><span class="small text-muted">Likes</span></div>
+            <div><span class="fw-bold">96%</span><br><span class="small text-muted">Response</span></div>
+          </div>
+          <a class="btn btn-outline-primary w-100 mt-3 rounded-pill cursor-pointer" onclick="showPage('profile')">Edit profile</a>
+        </div>
+
+        <div class="card p-4">
+          <h6 class="fw-bold mb-3"><i class="bi bi-calendar-heart me-2"></i>Upcoming dates</h6>
+          <div class="list-group list-group-flush">
+            <div class="list-group-item d-flex align-items-center gap-3 px-0 border-0 cursor-pointer" onclick="showPage('chat')">
+              <img src="https://i.pravatar.cc/150?img=9" class="rounded-circle" width="40" height="40" alt="date">
+              <div><strong>Mia</strong><br><span class="small text-muted">Fri 8pm · Blue Note</span></div>
+            </div>
+            <div class="list-group-item d-flex align-items-center gap-3 px-0 border-0 cursor-pointer" onclick="showPage('chat')">
+              <img src="https://i.pravatar.cc/150?img=15" class="rounded-circle" width="40" height="40" alt="date">
+              <div><strong>Chris</strong><br><span class="small text-muted">Sat 3pm · Central Park</span></div>
+            </div>
+          </div>
+          <a class="small text-decoration-none mt-2 cursor-pointer" onclick="showPage('chat')">View all plans →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: MATCHES                                                -->
+  <!-- ============================================================ -->
+  <div id="page-matches" class="page-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="fw-bold mb-0"><i class="bi bi-people-fill me-2" style="color:#6f42c1;"></i>Your Matches</h3>
+      <span class="badge bg-soft-purple text-dark rounded-pill px-3 py-2">128 matches</span>
+    </div>
+
+    <div class="row g-4">
+      <!-- Match cards -->
+      <div class="col-md-6 col-lg-4 col-xl-3">
+        <div class="card p-4 text-center">
+          <img src="https://i.pravatar.cc/150?img=1" class="rounded-circle mx-auto mb-3" width="90" height="90" alt="Mia">
+          <h5 class="fw-bold mb-1">Mia Chen</h5>
+          <p class="text-muted small mb-2">@miachen · 26</p>
+          <p class="small mb-3">🎨 Art lover · Coffee addict · Dog mom</p>
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary btn-sm rounded-pill flex-fill" onclick="showPage('chat'); openChat('mia')"><i class="bi bi-chat-dots me-1"></i>Message</button>
+            <button class="btn btn-outline-secondary btn-sm rounded-pill"><i class="bi bi-x-lg"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 col-xl-3">
+        <div class="card p-4 text-center">
+          <img src="https://i.pravatar.cc/150?img=5" class="rounded-circle mx-auto mb-3" width="90" height="90" alt="James">
+          <h5 class="fw-bold mb-1">James Okonkwo</h5>
+          <p class="text-muted small mb-2">@james_o · 30</p>
+          <p class="small mb-3">🏋️ Fitness · Travel · Live music</p>
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary btn-sm rounded-pill flex-fill" onclick="showPage('chat'); openChat('james')"><i class="bi bi-chat-dots me-1"></i>Message</button>
+            <button class="btn btn-outline-secondary btn-sm rounded-pill"><i class="bi bi-x-lg"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 col-xl-3">
+        <div class="card p-4 text-center">
+          <img src="https://i.pravatar.cc/150?img=8" class="rounded-circle mx-auto mb-3" width="90" height="90" alt="Taylor">
+          <h5 class="fw-bold mb-1">Taylor Smith</h5>
+          <p class="text-muted small mb-2">@taylors · 27</p>
+          <p class="small mb-3">📚 Books · Wine · Hiking</p>
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary btn-sm rounded-pill flex-fill" onclick="showPage('chat'); openChat('taylor')"><i class="bi bi-chat-dots me-1"></i>Message</button>
+            <button class="btn btn-outline-secondary btn-sm rounded-pill"><i class="bi bi-x-lg"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 col-xl-3">
+        <div class="card p-4 text-center">
+          <img src="https://i.pravatar.cc/150?img=12" class="rounded-circle mx-auto mb-3" width="90" height="90" alt="Jordan">
+          <h5 class="fw-bold mb-1">Jordan Lee</h5>
+          <p class="text-muted small mb-2">@jordanlee · 29</p>
+          <p class="small mb-3">🎸 Guitar · Cooking · Sunsets</p>
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary btn-sm rounded-pill flex-fill" onclick="showPage('chat'); openChat('jordan')"><i class="bi bi-chat-dots me-1"></i>Message</button>
+            <button class="btn btn-outline-secondary btn-sm rounded-pill"><i class="bi bi-x-lg"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 col-xl-3">
+        <div class="card p-4 text-center">
+          <img src="https://i.pravatar.cc/150?img=18" class="rounded-circle mx-auto mb-3" width="90" height="90" alt="Samira">
+          <h5 class="fw-bold mb-1">Samira Hassan</h5>
+          <p class="text-muted small mb-2">@samira_h · 25</p>
+          <p class="small mb-3">✈️ Traveler · Foodie · Yoga</p>
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary btn-sm rounded-pill flex-fill" onclick="showPage('chat'); openChat('samira')"><i class="bi bi-chat-dots me-1"></i>Message</button>
+            <button class="btn btn-outline-secondary btn-sm rounded-pill"><i class="bi bi-x-lg"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 col-xl-3">
+        <div class="card p-4 text-center">
+          <img src="https://i.pravatar.cc/150?img=15" class="rounded-circle mx-auto mb-3" width="90" height="90" alt="Chris">
+          <h5 class="fw-bold mb-1">Chris Nguyen</h5>
+          <p class="text-muted small mb-2">@chrisng · 31</p>
+          <p class="small mb-3">🏄 Surf · Photography · Tacos</p>
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary btn-sm rounded-pill flex-fill" onclick="showPage('chat'); openChat('chris')"><i class="bi bi-chat-dots me-1"></i>Message</button>
+            <button class="btn btn-outline-secondary btn-sm rounded-pill"><i class="bi bi-x-lg"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: CHAT (individual + group)                              -->
+  <!-- ============================================================ -->
+  <div id="page-chat" class="page-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="fw-bold mb-0"><i class="bi bi-chat-dots-fill me-2" style="color:#6f42c1;"></i>Messages</h3>
+      <button class="btn btn-primary btn-sm rounded-pill"><i class="bi bi-plus-lg me-1"></i>New chat</button>
+    </div>
+
+    <div class="row g-3">
+      <!-- Chat sidebar -->
+      <div class="col-lg-4">
+        <div class="chat-sidebar">
+          <!-- Search -->
+          <div class="p-3 border-bottom">
+            <div class="input-group">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+              <input type="text" class="form-control border-start-0" placeholder="Search conversations...">
+            </div>
+          </div>
+
+          <!-- Chat list -->
+          <div class="list-group list-group-flush">
+            <!-- Individual chats -->
+            <div class="list-group-item d-flex align-items-center gap-3 py-3 cursor-pointer active" data-chat="mia" onclick="openChat('mia')">
+              <div class="position-relative">
+                <img src="https://i.pravatar.cc/150?img=1" class="rounded-circle" width="48" height="48" alt="Mia">
+                <span class="position-absolute bottom-0 end-0 bg-success rounded-circle border border-2 border-white" style="width:12px;height:12px;"></span>
+              </div>
+              <div class="flex-grow-1 min-width-0">
+                <div class="d-flex justify-content-between">
+                  <h6 class="fw-bold mb-0 text-truncate">Mia Chen</h6>
+                  <small class="text-muted">2m</small>
+                </div>
+                <p class="small text-muted mb-0 text-truncate">That sounds amazing! 😊</p>
+              </div>
+            </div>
+
+            <div class="list-group-item d-flex align-items-center gap-3 py-3 cursor-pointer" data-chat="james" onclick="openChat('james')">
+              <div class="position-relative">
+                <img src="https://i.pravatar.cc/150?img=5" class="rounded-circle" width="48" height="48" alt="James">
+                <span class="position-absolute bottom-0 end-0 bg-secondary rounded-circle border border-2 border-white" style="width:12px;height:12px;"></span>
+              </div>
+              <div class="flex-grow-1 min-width-0">
+                <div class="d-flex justify-content-between">
+                  <h6 class="fw-bold mb-0 text-truncate">James Okonkwo</h6>
+                  <small class="text-muted">1h</small>
+                </div>
+                <p class="small text-muted mb-0 text-truncate">See you Saturday then 👋</p>
+              </div>
+            </div>
+
+            <div class="list-group-item d-flex align-items-center gap-3 py-3 cursor-pointer" data-chat="taylor" onclick="openChat('taylor')">
+              <div class="position-relative">
+                <img src="https://i.pravatar.cc/150?img=8" class="rounded-circle" width="48" height="48" alt="Taylor">
+                <span class="position-absolute bottom-0 end-0 bg-success rounded-circle border border-2 border-white" style="width:12px;height:12px;"></span>
+              </div>
+              <div class="flex-grow-1 min-width-0">
+                <div class="d-flex justify-content-between">
+                  <h6 class="fw-bold mb-0 text-truncate">Taylor Smith</h6>
+                  <small class="text-muted">3h</small>
+                </div>
+                <p class="small text-muted mb-0 text-truncate">Have you read that book yet?</p>
+              </div>
+            </div>
+
+            <!-- Group chats -->
+            <div class="list-group-item d-flex align-items-center gap-3 py-3 cursor-pointer" data-chat="group-weekend" onclick="openChat('group-weekend')">
+              <div class="group-icon">W</div>
+              <div class="flex-grow-1 min-width-0">
+                <div class="d-flex justify-content-between">
+                  <h6 class="fw-bold mb-0 text-truncate">Weekend Squad 🎉</h6>
+                  <small class="text-muted">15m</small>
+                </div>
+                <p class="small text-muted mb-0 text-truncate"><strong>Riley:</strong> Who's in for Saturday?</p>
+              </div>
+            </div>
+
+            <div class="list-group-item d-flex align-items-center gap-3 py-3 cursor-pointer" data-chat="group-coffee" onclick="openChat('group-coffee')">
+              <div class="group-icon" style="background:#e83e8c;">C</div>
+              <div class="flex-grow-1 min-width-0">
+                <div class="d-flex justify-content-between">
+                  <h6 class="fw-bold mb-0 text-truncate">Coffee Lovers ☕</h6>
+                  <small class="text-muted">1h</small>
+                </div>
+                <p class="small text-muted mb-0 text-truncate"><strong>Jordan:</strong> New spot on 5th!</p>
+              </div>
+            </div>
+
+            <div class="list-group-item d-flex align-items-center gap-3 py-3 cursor-pointer" data-chat="group-hiking" onclick="openChat('group-hiking')">
+              <div class="group-icon" style="background:#20c997;">H</div>
+              <div class="flex-grow-1 min-width-0">
+                <div class="d-flex justify-content-between">
+                  <h6 class="fw-bold mb-0 text-truncate">Hiking Crew 🥾</h6>
+                  <small class="text-muted">4h</small>
+                </div>
+                <p class="small text-muted mb-0 text-truncate"><strong>Samira:</strong> Trail map attached</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat window -->
+      <div class="col-lg-8">
+        <div class="chat-window">
+          <!-- Chat header -->
+          <div class="p-3 border-bottom d-flex align-items-center gap-3" id="chatHeader">
+            <img src="https://i.pravatar.cc/150?img=1" class="rounded-circle" width="48" height="48" alt="Mia" id="chatHeaderAvatar">
+            <div class="flex-grow-1">
+              <h6 class="fw-bold mb-0" id="chatHeaderName">Mia Chen</h6>
+              <span class="small text-success"><i class="bi bi-circle-fill me-1" style="font-size:0.5rem;"></i>Online</span>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-light rounded-circle"><i class="bi bi-telephone"></i></button>
+              <button class="btn btn-sm btn-light rounded-circle"><i class="bi bi-camera-video"></i></button>
+              <button class="btn btn-sm btn-light rounded-circle"><i class="bi bi-info-circle"></i></button>
+            </div>
+          </div>
+
+          <!-- Chat messages -->
+          <div class="chat-messages" id="chatMessages">
+            <!-- Content injected by JS -->
+          </div>
+
+          <!-- Chat input -->
+          <div class="chat-input-area">
+            <div class="d-flex gap-2">
+              <button class="btn btn-light rounded-circle"><i class="bi bi-emoji-smile"></i></button>
+              <button class="btn btn-light rounded-circle"><i class="bi bi-paperclip"></i></button>
+              <input type="text" class="form-control rounded-pill" placeholder="Type a message..." id="chatInput" onkeypress="if(event.key==='Enter') sendMessage()">
+              <button class="btn btn-primary rounded-circle" onclick="sendMessage()"><i class="bi bi-send"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: PROFILE                                                -->
+  <!-- ============================================================ -->
+  <div id="page-profile" class="page-section">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="card p-4 text-center">
+          <img src="https://i.pravatar.cc/150?img=32" class="rounded-circle mx-auto mb-3" width="120" height="120" alt="Alex">
+          <h4 class="fw-bold mb-1">Alex Rivera</h4>
+          <p class="text-muted mb-3">@alexriv · 28 · Brooklyn</p>
+          <div class="d-flex justify-content-center gap-3 mb-4">
+            <div class="text-center">
+              <h5 class="fw-bold mb-0">128</h5>
+              <small class="text-muted">Matches</small>
+            </div>
+            <div class="text-center">
+              <h5 class="fw-bold mb-0">342</h5>
+              <small class="text-muted">Likes</small>
+            </div>
+            <div class="text-center">
+              <h5 class="fw-bold mb-0">96%</h5>
+              <small class="text-muted">Response</small>
+            </div>
+          </div>
+          <button class="btn btn-primary w-100 rounded-pill mb-2"><i class="bi bi-pencil me-1"></i>Edit profile</button>
+          <button class="btn btn-outline-secondary w-100 rounded-pill"><i class="bi bi-gear me-1"></i>Settings</button>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="card p-4 mb-4">
+          <h5 class="fw-bold mb-3"><i class="bi bi-person me-2"></i>About me</h5>
+          <p>Adventure seeker, coffee enthusiast, and part-time photographer. I believe in spontaneous road trips and deep conversations. Looking for someone who shares my love for exploration and good vibes. ✨</p>
+          <div class="d-flex flex-wrap gap-2 mt-3">
+            <span class="badge bg-soft-purple text-dark px-3 py-2 rounded-pill">📸 Photography</span>
+            <span class="badge bg-soft-purple text-dark px-3 py-2 rounded-pill">☕ Coffee</span>
+            <span class="badge bg-soft-purple text-dark px-3 py-2 rounded-pill">🎵 Live music</span>
+            <span class="badge bg-soft-purple text-dark px-3 py-2 rounded-pill">✈️ Travel</span>
+            <span class="badge bg-soft-purple text-dark px-3 py-2 rounded-pill">🏔️ Hiking</span>
+          </div>
+        </div>
+
+        <div class="card p-4">
+          <h5 class="fw-bold mb-3"><i class="bi bi-images me-2"></i>Photos</h5>
+          <div class="row g-3">
+            <div class="col-4"><img src="https://picsum.photos/300/300?random=1" class="img-fluid rounded-3" alt="photo"></div>
+            <div class="col-4"><img src="https://picsum.photos/300/300?random=2" class="img-fluid rounded-3" alt="photo"></div>
+            <div class="col-4"><img src="https://picsum.photos/300/300?random=3" class="img-fluid rounded-3" alt="photo"></div>
+            <div class="col-4"><img src="https://picsum.photos/300/300?random=4" class="img-fluid rounded-3" alt="photo"></div>
+            <div class="col-4"><img src="https://picsum.photos/300/300?random=5" class="img-fluid rounded-3" alt="photo"></div>
+            <div class="col-4"><img src="https://picsum.photos/300/300?random=6" class="img-fluid rounded-3" alt="photo"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: ADMIN DASHBOARD                                        -->
+  <!-- ============================================================ -->
+  <div id="page-adminDashboard" class="page-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="fw-bold"><i class="bi bi-speedometer2 me-2"></i>Admin dashboard</h2>
+      <span class="badge bg-dark rounded-pill px-3 py-2">mockup · no backend</span>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <div class="col-md-3">
+        <div class="card p-3 text-center">
+          <i class="bi bi-people fs-2 text-primary"></i>
+          <h3 class="fw-bold mt-2">1,284</h3>
+          <span class="text-muted">Total users</span>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card p-3 text-center">
+          <i class="bi bi-person-check fs-2 text-success"></i>
+          <h3 class="fw-bold mt-2">892</h3>
+          <span class="text-muted">Active</span>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card p-3 text-center">
+          <i class="bi bi-heart-fill fs-2 text-danger"></i>
+          <h3 class="fw-bold mt-2">3.2k</h3>
+          <span class="text-muted">Matches</span>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card p-3 text-center">
+          <i class="bi bi-flag fs-2 text-warning"></i>
+          <h3 class="fw-bold mt-2">12</h3>
+          <span class="text-muted">Reports</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+      <div class="col-md-6">
+        <div class="card p-4">
+          <h5 class="fw-bold mb-3"><i class="bi bi-bar-chart me-2"></i>User growth (mock)</h5>
+          <div class="d-flex align-items-end gap-2" style="height:150px;">
+            <div class="bg-primary rounded-top flex-fill" style="height:40%;"></div>
+            <div class="bg-primary rounded-top flex-fill" style="height:55%;"></div>
+            <div class="bg-primary rounded-top flex-fill" style="height:45%;"></div>
+            <div class="bg-primary rounded-top flex-fill" style="height:70%;"></div>
+            <div class="bg-primary rounded-top flex-fill" style="height:65%;"></div>
+            <div class="bg-primary rounded-top flex-fill" style="height:85%;"></div>
+            <div class="bg-primary rounded-top flex-fill" style="height:95%;"></div>
+          </div>
+          <div class="d-flex justify-content-between mt-2 small text-muted">
+            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-4">
+          <h5 class="fw-bold mb-3"><i class="bi bi-activity me-2"></i>Recent activity</h5>
+          <div class="list-group list-group-flush">
+            <div class="list-group-item px-0 border-0 d-flex gap-3 align-items-center">
+              <i class="bi bi-person-plus text-success fs-4"></i>
+              <div><strong>New user</strong> registered <span class="text-muted small">— 2 min ago</span></div>
+            </div>
+            <div class="list-group-item px-0 border-0 d-flex gap-3 align-items-center">
+              <i class="bi bi-heart-fill text-danger fs-4"></i>
+              <div><strong>Mia & James</strong> matched <span class="text-muted small">— 15 min ago</span></div>
+            </div>
+            <div class="list-group-item px-0 border-0 d-flex gap-3 align-items-center">
+              <i class="bi bi-flag text-warning fs-4"></i>
+              <div><strong>Report</strong> submitted on profile #452 <span class="text-muted small">— 1h ago</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: ADMIN USERS                                            -->
+  <!-- ============================================================ -->
+  <div id="page-adminUsers" class="page-section">
+    <div class="card p-4">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <h4 class="fw-bold mb-0"><i class="bi bi-people-fill me-2"></i>Manage registered users</h4>
+        <div class="d-flex gap-2">
+          <div class="input-group" style="width: 260px;">
+            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+            <input type="text" class="form-control border-start-0" placeholder="Search users...">
+          </div>
+          <button class="btn btn-primary rounded-pill"><i class="bi bi-plus-lg"></i> Add user</button>
+        </div>
+      </div>
+
+      <ul class="nav nav-pills mb-4 gap-2">
+        <li class="nav-item"><a class="nav-link active rounded-pill" href="#">All</a></li>
+        <li class="nav-item"><a class="nav-link rounded-pill" href="#">Active</a></li>
+        <li class="nav-item"><a class="nav-link rounded-pill" href="#">Inactive</a></li>
+        <li class="nav-item"><a class="nav-link rounded-pill" href="#">Reported</a></li>
+      </ul>
+
+      <div class="table-responsive">
+        <table class="table admin-table align-middle">
+          <thead class="table-light">
+            <tr>
+              <th><input class="form-check-input" type="checkbox"></th>
+              <th>User</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Joined</th>
+              <th>Matches</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input class="form-check-input" type="checkbox"></td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <img src="https://i.pravatar.cc/150?img=1" alt="avatar">
+                  <div><strong>Mia Chen</strong><br><span class="small text-muted">@miachen</span></div>
+                </div>
+              </td>
+              <td>mia.c@example.com</td>
+              <td><span class="badge bg-success bg-opacity-10 text-success status-badge"><i class="bi bi-circle-fill me-1" style="font-size:0.5rem;"></i>Active</span></td>
+              <td>Jan 12, 2025</td>
+              <td>24</td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-light rounded-pill me-1" title="Edit"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-sm btn-light rounded-pill text-danger" title="Suspend"><i class="bi bi-slash-circle"></i></button>
+                <button class="btn btn-sm btn-light rounded-pill text-danger" title="Delete"><i class="bi bi-trash3"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td><input class="form-check-input" type="checkbox"></td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <img src="https://i.pravatar.cc/150?img=5" alt="avatar">
+                  <div><strong>James Okonkwo</strong><br><span class="small text-muted">@james_o</span></div>
+                </div>
+              </td>
+              <td>james.o@example.com</td>
+              <td><span class="badge bg-success bg-opacity-10 text-success status-badge"><i class="bi bi-circle-fill me-1" style="font-size:0.5rem;"></i>Active</span></td>
+              <td>Feb 03, 2025</td>
+              <td>18</td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-light rounded-pill me-1"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-sm btn-light rounded-pill text-danger"><i class="bi bi-slash-circle"></i></button>
+                <button class="btn btn-sm btn-light rounded-pill text-danger"><i class="bi bi-trash3"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td><input class="form-check-input" type="checkbox"></td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <img src="https://i.pravatar.cc/150?img=8" alt="avatar">
+                  <div><strong>Taylor Smith</strong><br><span class="small text-muted">@taylors</span></div>
+                </div>
+              </td>
+              <td>taylor.s@example.com</td>
+              <td><span class="badge bg-warning bg-opacity-10 text-warning status-badge"><i class="bi bi-exclamation-circle me-1"></i>Reported</span></td>
+              <td>Dec 28, 2024</td>
+              <td>7</td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-light rounded-pill me-1"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-sm btn-light rounded-pill text-danger"><i class="bi bi-slash-circle"></i></button>
+                <button class="btn btn-sm btn-light rounded-pill text-danger"><i class="bi bi-trash3"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td><input class="form-check-input" type="checkbox"></td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <img src="https://i.pravatar.cc/150?img=12" alt="avatar">
+                  <div><strong>Jordan Lee</strong><br><span class="small text-muted">@jordanlee</span></div>
+                </div>
+              </td>
+              <td>jordan.l@example.com</td>
+              <td><span class="badge bg-secondary bg-opacity-10 text-secondary status-badge"><i class="bi bi-dash-circle me-1"></i>Inactive</span></td>
+              <td>Nov 15, 2024</td>
+              <td>3</td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-light rounded-pill me-1"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-sm btn-light rounded-pill text-danger"><i class="bi bi-slash-circle"></i></button>
+                <button class="btn btn-sm btn-light rounded-pill text-danger"><i class="bi bi-trash3"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td><input class="form-check-input" type="checkbox"></td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <img src="https://i.pravatar.cc/150?img=18" alt="avatar">
+                  <div><strong>Samira Hassan</strong><br><span class="small text-muted">@samira_h</span></div>
+                </div>
+              </td>
+              <td>samira.h@example.com</td>
+              <td><span class="badge bg-success bg-opacity-10 text-success status-badge"><i class="bi bi-circle-fill me-1" style="font-size:0.5rem;"></i>Active</span></td>
+              <td>Mar 01, 2025</td>
+              <td>32</td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-light rounded-pill me-1"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-sm btn-light rounded-pill text-danger"><i class="bi bi-slash-circle"></i></button>
+                <button class="btn btn-sm btn-light rounded-pill text-danger"><i class="bi bi-trash3"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <nav class="mt-3">
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+      </nav>
+      <div class="text-muted small mt-2">Showing 5 of 1,284 users (mockup)</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: ADMIN SETTINGS                                         -->
+  <!-- ============================================================ -->
+  <div id="page-adminSettings" class="page-section">
+    <h2 class="fw-bold mb-4"><i class="bi bi-gear me-2"></i>Admin settings</h2>
+    <div class="card p-4">
+      <div class="mb-4">
+        <label class="form-label fw-semibold">Site name</label>
+        <input type="text" class="form-control" value="HookUp">
+      </div>
+      <div class="mb-4">
+        <label class="form-label fw-semibold">Support email</label>
+        <input type="email" class="form-control" value="support@hookup.mock">
+      </div>
+      <div class="mb-4">
+        <label class="form-label fw-semibold">Default user status</label>
+        <select class="form-select">
+          <option>Active</option>
+          <option>Inactive</option>
+        </select>
+      </div>
+      <div class="form-check form-switch mb-4">
+        <input class="form-check-input" type="checkbox" id="maintenanceMode" checked>
+        <label class="form-check-label" for="maintenanceMode">Enable maintenance mode</label>
+      </div>
+      <button class="btn btn-primary rounded-pill px-4">Save settings</button>
+    </div>
+  </div>
+
+  <div class="my-5"></div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer py-4">
+  <div class="container d-flex flex-wrap justify-content-between align-items-center">
+    <div class="d-flex align-items-center gap-2">
+      <i class="bi bi-heart-fill" style="color:#6f42c1;"></i>
+      <span class="fw-semibold">HookUp</span>
+      <span class="text-muted small ms-2">© 2025 mockup</span>
+    </div>
+    <div class="d-flex gap-4 small">
+      <a href="#" class="text-decoration-none text-muted">Privacy</a>
+      <a href="#" class="text-decoration-none text-muted">Terms</a>
+      <a href="#" class="text-decoration-none text-muted">Support</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= BOOTSTRAP JS ================= -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ================= PAGE NAVIGATION + CHAT LOGIC ================= -->
+<script>
+  // ----- page navigation -----
+  function showPage(pageId) {
+    // hide all pages
+    document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+    // show target
+    const target = document.getElementById('page-' + pageId);
+    if (target) target.classList.add('active');
+
+    // update nav active state
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(l => l.classList.remove('active-page'));
+    const navMap = {
+      'home': 'nav-home',
+      'matches': 'nav-matches',
+      'chat': 'nav-chat',
+      'profile': 'nav-profile',
+      'adminDashboard': 'nav-admin',
+      'adminUsers': 'nav-admin',
+      'adminSettings': 'nav-admin'
+    };
+    if (navMap[pageId]) {
+      const el = document.getElementById(navMap[pageId]);
+      if (el) el.classList.add('active-page');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ----- chat data (mock) -----
+  const chats = {
+    mia: {
+      name: 'Mia Chen',
+      avatar: 'https://i.pravatar.cc/150?img=1',
+      status: 'Online',
+      messages: [
+        { sender: 'Mia', text: 'Hey! Loved your profile 😊', time: '10:30 AM', sent: false },
+        { sender: 'You', text: 'Thanks! Yours is amazing too. That art gallery pic 👌', time: '10:32 AM', sent: true },
+        { sender: 'Mia', text: 'Haha thank you! I go there every weekend.', time: '10:33 AM', sent: false },
+        { sender: 'Mia', text: 'That sounds amazing! 😊', time: '10:34 AM', sent: false }
+      ]
+    },
+    james: {
+      name: 'James Okonkwo',
+      avatar: 'https://i.pravatar.cc/150?img=5',
+      status: 'Last seen 1h ago',
+      messages: [
+        { sender: 'James', text: 'Hey! How\'s it going?', time: '9:00 AM', sent: false },
+        { sender: 'You', text: 'Pretty good! You?', time: '9:05 AM', sent: true },
+        { sender: 'James', text: 'Great! Still up for Saturday?', time: '9:06 AM', sent: false },
+        { sender: 'You', text: 'Absolutely. See you Saturday then 👋', time: '9:07 AM', sent: true }
+      ]
+    },
+    taylor: {
+      name: 'Taylor Smith',
+      avatar: 'https://i.pravatar.cc/150?img=8',
+      status: 'Online',
+      messages: [
+        { sender: 'Taylor', text: 'Have you read that book yet?', time: 'Yesterday', sent: false },
+        { sender: 'You', text: 'Not yet! Started last night though.', time: 'Yesterday', sent: true },
+        { sender: 'Taylor', text: 'You\'ll love it. The ending is wild.', time: 'Yesterday', sent: false }
+      ]
+    },
+    jordan: {
+      name: 'Jordan Lee',
+      avatar: 'https://i.pravatar.cc/150?img=12',
+      status: 'Offline',
+      messages: [
+        { sender: 'Jordan', text: 'Hey! Guitar session this weekend?', time: 'Mon', sent: false },
+        { sender: 'You', text: 'Sounds fun! What time?', time: 'Mon', sent: true },
+        { sender: 'Jordan', text: 'How about 4pm?', time: 'Mon', sent: false }
+      ]
+    },
+    samira: {
+      name: 'Samira Hassan',
+      avatar: 'https://i.pravatar.cc/150?img=18',
+      status: 'Online',
+      messages: [
+        { sender: 'Samira', text: 'Just booked a trip to Bali! 🌴', time: '11:00 AM', sent: false },
+        { sender: 'You', text: 'No way! That\'s incredible. When?', time: '11:02 AM', sent: true },
+        { sender: 'Samira', text: 'Next month! Wanna come? 😏', time: '11:03 AM', sent: false }
+      ]
+    },
+    chris: {
+      name: 'Chris Nguyen',
+      avatar: 'https://i.pravatar.cc/150?img=15',
+      status: 'Last seen 30m ago',
+      messages: [
+        { sender: 'Chris', text: 'Surfing tomorrow morning?', time: '7:00 PM', sent: false },
+        { sender: 'You', text: 'I\'m in! What beach?', time: '7:05 PM', sent: true },
+        { sender: 'Chris', text: 'Rockaway. 6am.', time: '7:06 PM', sent: false }
+      ]
+    },
+    'group-weekend': {
+      name: 'Weekend Squad 🎉',
+      avatar: null,
+      group: true,
+      status: '5 members',
+      messages: [
+        { sender: 'Riley', text: 'Who\'s in for Saturday?', time: '10:00 AM', sent: false },
+        { sender: 'You', text: 'Me! What\'s the plan?', time: '10:02 AM', sent: true },
+        { sender: 'Samira', text: 'Rooftop bar? 🍹', time: '10:03 AM', sent: false },
+        { sender: 'Jordan', text: 'I\'m down. 8pm?', time: '10:05 AM', sent: false },
+        { sender: 'Riley', text: 'Perfect. Sending address soon!', time: '10:06 AM', sent: false }
+      ]
+    },
+    'group-coffee': {
+      name: 'Coffee Lovers ☕',
+      avatar: null,
+      group: true,
+      status: '3 members',
+      messages: [
+        { sender: 'Jordan', text: 'New spot on 5th!', time: '9:00 AM', sent: false },
+        { sender: 'You', text: 'Ooh what\'s it called?', time: '9:01 AM', sent: true },
+        { sender: 'Taylor', text: 'Bean There. Amazing cold brew.', time: '9:02 AM', sent: false }
+      ]
+    },
+    'group-hiking': {
+      name: 'Hiking Crew 🥾',
+      avatar: null,
+      group: true,
+      status: '8 members',
+      messages: [
+        { sender: 'Samira', text: 'Trail map attached', time: 'Yesterday', sent: false },
+        { sender: 'You', text: 'Looks challenging! I\'m in.', time: 'Yesterday', sent: true },
+        { sender: 'James', text: 'Bring extra water everyone 💧', time: 'Yesterday', sent: false }
+      ]
+    }
+  };
+
+  let currentChatKey = 'mia';
+
+  function openChat(chatKey) {
+    if (!chats[chatKey]) return;
+    currentChatKey = chatKey;
+    const chat = chats[chatKey];
+
+    // update header
+    const headerAvatar = document.getElementById('chatHeaderAvatar');
+    const headerName = document.getElementById('chatHeaderName');
+    const headerStatus = document.querySelector('#chatHeader .small');
+
+    if (chat.group) {
+      headerAvatar.style.display = 'none';
+      headerName.textContent = chat.name;
+      if (headerStatus) headerStatus.innerHTML = '<i class="bi bi-people-fill me-1"></i>' + chat.status;
+    } else {
+      headerAvatar.style.display = 'block';
+      headerAvatar.src = chat.avatar;
+      headerName.textContent = chat.name;
+      if (headerStatus) headerStatus.innerHTML = '<i class="bi bi-circle-fill me-1" style="font-size:0.5rem;color:' + (chat.status === 'Online' ? '#198754' : '#6c757d') + '"></i>' + chat.status;
+    }
+
+    // render messages
+    renderMessages(chatKey);
+
+    // update active state in sidebar
+    document.querySelectorAll('.chat-sidebar .list-group-item').forEach(el => {
+      el.classList.remove('active');
+      if (el.dataset.chat === chatKey) el.classList.add('active');
+    });
+  }
+
+  function renderMessages(chatKey) {
+    const chat = chats[chatKey];
+    const container = document.getElementById('chatMessages');
+    if (!container) return;
+    container.innerHTML = '';
+
+    // date divider
+    const dateDiv = document.createElement('div');
+    dateDiv.className = 'chat-date-divider';
+    dateDiv.innerHTML = '<span>Today</span>';
+    container.appendChild(dateDiv);
+
+    chat.messages.forEach(msg => {
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble ' + (msg.sent ? 'sent' : 'received');
+      if (!msg.sent && chat.group) {
+        bubble.innerHTML = '<div class="sender-name">' + msg.sender + '</div>' + msg.text + '<div class="small text-end mt-1" style="font-size:0.65rem;opacity:0.7;">' + msg.time + '</div>';
+      } else {
+        bubble.innerHTML = msg.text + '<div class="small text-end mt-1" style="font-size:0.65rem;opacity:0.7;">' + msg.time + '</div>';
+      }
+      container.appendChild(bubble);
+    });
+
+    // scroll to bottom
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function sendMessage() {
+    const input = document.getElementById('chatInput');
+    if (!input) return;
+    const text = input.value.trim();
+    if (!text) return;
+
+    const chat = chats[currentChatKey];
+    if (!chat) return;
+
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    chat.messages.push({
+      sender: 'You',
+      text: text,
+      time: timeStr,
+      sent: true
+    });
+
+    input.value = '';
+    renderMessages(currentChatKey);
+
+    // mock auto-reply for individual chats
+    if (!chat.group) {
+      setTimeout(() => {
+        const replies = [
+          'That\'s so cool! 😊',
+          'Haha totally!',
+          'Sounds like a plan ✨',
+          'I was thinking the same!',
+          'Let\'s do it! 🙌',
+          'You\'re funny 😄'
+        ];
+        const randomReply = replies[Math.floor(Math.random() * replies.length)];
+        const replyTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        chat.messages.push({
+          sender: chat.name.split(' ')[0],
+          text: randomReply,
+          time: replyTime,
+          sent: false
+        });
+        if (currentChatKey === chat.name.toLowerCase().split(' ')[0] || currentChatKey === Object.keys(chats).find(k => chats[k].name === chat.name)) {
+          renderMessages(currentChatKey);
+        }
+      }, 1200);
+    }
+  }
+
+  // ----- initialise -----
+  document.addEventListener('DOMContentLoaded', function() {
+    showPage('home');
+    // preload the first chat
+    openChat('mia');
+  });
+</script>
+</body>
+</html>
